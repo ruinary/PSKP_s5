@@ -1,0 +1,176 @@
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width">
+  <title>04</title>
+  <style>
+    body {
+      background-color: #ff9baa;
+      color: #993366;
+      font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    }
+
+    button,
+    input {
+      border-radius: 50px;
+      color: #993366;
+      border: none;
+      background-color: #ffc0cb;
+      padding: 5px;
+      margin: 5px;
+      height: 30px;
+      width: 50px;
+    }
+
+    input {
+      width: 200px;
+    }
+
+    div .block {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      border: #993366 dotted 1px;
+      border-radius: 20px;
+      width: 250px;
+      padding: 5px;
+    }
+  </style>
+  <script>
+    function Get() {
+      console.log('GET');
+      fetch('http://localhost:5000/api/db', {
+          method: 'GET',
+          mode: 'no-cors',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          }
+        })
+        .then(response => {
+          return response.json();
+        })
+        .then((pdata) => {
+          console.log('pdata', pdata);
+          get_result.innerHTML = '';
+          pdata.forEach(el => {
+            get_result.innerHTML += (el.id + '. ' + el.name + ' ' + el.bday + '</br/>');
+          });
+        });
+    }
+
+    function Post() {
+      console.log('POST');
+      fetch('http://localhost:5000/api/db', {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: {
+            'Content-type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            id: parseInt(ID.value, 10),
+            name: Name.value,
+            bday: BDay.value
+          })
+        }).then(response => {
+          return response.json();
+        })
+        .then((pdata) => {
+          console.log('POST.pdata', pdata);
+        })
+        Get();
+    }
+
+    function Put() {
+      console.log('PUT');
+      fetch('http://localhost:5000/api/db', {
+          method: 'PUT',
+          headers: {
+            'Content-type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            id: id.value,
+            name: namee.value,
+            bday: bday.value
+          })
+        }).then(response => {
+          return response.json();
+        })
+        .then((pdata) => {
+          console.log('PUT.pdata', pdata);
+        })
+        Get();
+    }
+
+    function Delete() {
+      console.log('DELETE');
+      fetch('http://localhost:5000/api/db', {
+          method: 'DELETE',
+          headers: {
+            'Content-type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            id: Id.value
+          })
+        }).then(response => {
+          return response.json();
+        })
+        .then((pdata) => {
+          console.log('DELETE.pdata', pdata);
+        })
+        Get();
+    }
+  </script>
+</head>
+
+<body>
+  <h1>Лабораторная работа #4</h1>
+  <div>
+    <div class="block">
+      <label>Список БД:</label>
+      <br>
+      <div id="get_result">Для получения данных нажмите кнопку</div>
+      <br>
+      <button onclick="Get()">GET</button>
+    </div>
+    <br>
+    <div class="block">
+      <label>Идентификатор</label>
+      <input type="number" id="ID" min="0" />
+      <br>
+      <label>ФИО</label>
+      <input type="text" id="Name" />
+      <br>
+      <label>Дата Рождения</label>
+      <input type="date" id="BDay" />
+      <br>
+      <button onclick="Post()">POST</button>
+    </div>
+    <br>
+    <div class="block">
+      <label>Идентификатор</label>
+      <input type="number" id="id" min="0" />
+      <br>
+      <label>ФИО</label>
+      <input type="text" id="namee" />
+      <br>
+      <label>Дата Рождения</label>
+      <input type="date" id="bday" />
+      <br>
+      <button onclick="Put()">PUT</button>
+    </div>
+    <br>
+    <div class="block">
+      <label>Идентификатор</label>
+      <input type="number" id="Id" min="0" />
+      <br>
+      <button onclick="Delete()">DELETE</button>
+    </div>
+  </div>
+</body>
+
+</html>
