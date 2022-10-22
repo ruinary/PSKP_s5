@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>06</title>
+</head>
+
+<body>
+    <div>
+        <form>
+            <input class="from-email" id="from-email" type="email" placeholder="From" required>
+            <input class="from-email-password" id="from-email-password" type="password" placeholder="Password" required>
+            <input class="to-email" id="to-email" type="email" placeholder="To" required>
+            <input class="message" id="message" type="text" placeholder="Message">
+            <input class="button" type="button" onclick="sendMessage()" value="Send">
+        </form>
+    </div>
+
+    <script>
+        const sendMessage = async () => {
+
+            const fromEmail = document.querySelector('.from-email').value;
+            const fromEmailPassword = document.querySelector('.from-email-password').value;
+            const toEmail = document.querySelector('.to-email').value;
+            const message = document.querySelector('.message').value;
+
+            await fetch('http://localhost:3000/', {
+                method: 'POST', mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'text/html'
+                },
+                body: JSON.stringify({
+                    from: fromEmail,
+                    password: fromEmailPassword,
+                    to: toEmail,
+                    message: message
+                })
+            });
+        };
+    </script>
+
+</body>
+
+</html>
